@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!-- was: <?xml version="1.0" encoding="UTF-8"?> -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:context="http://www.springframework.org/schema/context" 
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+       
+
+    <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+
+    <!--
+    Most controllers will use the ControllerClassNameHandlerMapping above, but
+    for the index controller we are using ParameterizableViewController, so we must
+    define an explicit mapping for it.
+    -->   
+
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          p:prefix="/WEB-INF/view/"
+          p:suffix=".jsp" />
+
+    <!--context sacnner-->
+    <context:annotation-config/>
+    <context:component-scan base-package="com.kn.ce"/>   
+    
+    <!--Resourse folder-->
+    <mvc:resources mapping="/images/**" location="/images"/>
+    <mvc:resources mapping="/js/**" location="/js"/>
+    <mvc:resources mapping="/css/**" location="/css"/>
+    <mvc:resources mapping="/fonts/**" location="/fonts"/>
+    <mvc:annotation-driven/>
+    
+    <!-- Database Information -->
+    <bean id="dataSource"
+          class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+          p:driverClassName="com.mysql.jdbc.Driver"
+          p:url="jdbc:mysql://localhost:3306/creative_edge"
+          p:username="root"
+          p:password="pcsadmin" />
+
+    <!-- SessionFactory Bean -->
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean" 
+          destroy-method="destroy">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="annotatedClasses">
+            <list>
+                <value>com.kn.ce.model.entity.AdvancePayment</value>
+                <value>com.kn.ce.model.entity.CreditNote</value>
+                <value>com.kn.ce.model.entity.CreditNoteLine</value>
+                <value>com.kn.ce.model.entity.Customer</value>
+                <value>com.kn.ce.model.entity.CustomerTransaction</value>
+                <value>com.kn.ce.model.entity.FinishedItem</value>
+                <value>com.kn.ce.model.entity.FinishedItemCategory</value>
+                <value>com.kn.ce.model.entity.Grn</value>
+                <value>com.kn.ce.model.entity.GrnLine</value>
+                <value>com.kn.ce.model.entity.GrnPayment</value>
+                <value>com.kn.ce.model.entity.GrnReturn</value>
+                <value>com.kn.ce.model.entity.GrnReturnLine</value>
+                <value>com.kn.ce.model.entity.Invoice</value>
+                <value>com.kn.ce.model.entity.InvoiceLine</value>                
+                <value>com.kn.ce.model.entity.InvoicePayment</value>
+                <value>com.kn.ce.model.entity.Job</value>
+                <value>com.kn.ce.model.entity.JobLine</value>
+                <value>com.kn.ce.model.entity.Location</value>
+                <value>com.kn.ce.model.entity.RawItem</value>
+                <value>com.kn.ce.model.entity.RawItemCategory</value>
+                <value>com.kn.ce.model.entity.RawItemIssue</value>
+                <value>com.kn.ce.model.entity.RawItemIssueLine</value>              
+                <value>com.kn.ce.model.entity.RawItemIssueRtn</value>              
+                <value>com.kn.ce.model.entity.RawItemIssueRtnLine</value>              
+                <value>com.kn.ce.model.entity.RawItemStock</value>               
+                <value>com.kn.ce.model.entity.Supplier</value>
+                <value>com.kn.ce.model.entity.SupplierTransaction</value>  
+                <value>com.kn.ce.model.entity.SystemPage</value>                 
+                <value>com.kn.ce.model.entity.Uom</value>
+                <value>com.kn.ce.model.entity.User</value>
+                <value>com.kn.ce.model.entity.UserPageAccess</value> 
+                <value>com.kn.ce.model.entity.UserPageAccessId</value>  
+                <value>com.kn.ce.model.entity.UserRole</value> 
+                <value>com.kn.ce.model.entity.Worker</value>             
+            </list>
+        </property>
+        
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate_show_sql">true</prop>               
+                <prop key="dialect">org.hibernate.dialect.MySQL5Dialect</prop>
+            </props>
+        </property>
+        
+        
+    </bean>
+    
+   
+    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>    
+    <tx:annotation-driven/>
+    
+   
+
+</beans>

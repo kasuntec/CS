@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="job_print" language="groovy" pageWidth="595" pageHeight="419" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isIgnorePagination="true" uuid="4dad15f8-d510-41f6-8aef-5706936fa174">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="123"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["H:\\Work\\CreativeEdge\\web\\reports\\"]]></defaultValueExpression>
+	</parameter>
+	<parameter name="id" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     invoice_payment.`pay_id` AS pay_id,
+     invoice_payment.`inv_no` AS inv_no,
+     invoice_payment.`date` AS date,
+     invoice_payment.`username` AS username,
+     invoice_payment.`pay_type` AS pay_type,
+     invoice_payment.`amount` AS amount,
+     invoice_payment.`ref_no` AS ref_no,
+     customer.`name` AS name,
+     customer.`address_line1` AS address_line1,
+     customer.`address_line2` AS address_line2,
+     customer.`city` AS customer_city,
+     customer.`postal_code` AS customer_postal_code
+FROM
+     `invoice` invoice INNER JOIN `invoice_payment` invoice_payment ON invoice.`inv_no` = invoice_payment.`inv_no`
+     INNER JOIN `job` job ON invoice.`job_no` = job.`job_no`
+     INNER JOIN `customer` customer ON job.`cust_id` = customer.`cust_id`
+where invoice_payment.`pay_id`=$P{id}]]>
+	</queryString>
+	<field name="pay_id" class="java.lang.Long"/>
+	<field name="inv_no" class="java.lang.Long"/>
+	<field name="date" class="java.sql.Timestamp"/>
+	<field name="username" class="java.lang.String"/>
+	<field name="pay_type" class="java.lang.String"/>
+	<field name="amount" class="java.lang.Double"/>
+	<field name="ref_no" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="address_line1" class="java.lang.String"/>
+	<field name="address_line2" class="java.lang.String"/>
+	<field name="customer_city" class="java.lang.String"/>
+	<field name="customer_postal_code" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="181" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="d3dff3af-1abb-4166-958e-73da5af7a50a" x="0" y="50" width="240" height="20"/>
+				<textElement>
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Creative Edge Lanka (Pvt) Ltd]]></text>
+			</staticText>
+			<image>
+				<reportElement uuid="b8db5525-3bbc-417d-b2b7-d12bd0df8cf2" x="0" y="0" width="150" height="50"/>
+				<imageExpression><![CDATA["/logo.png"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement uuid="d3dff3af-1abb-4166-958e-73da5af7a50a" x="0" y="73" width="240" height="16"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[NO.82, Beddegana Road,Pitakotte.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d3dff3af-1abb-4166-958e-73da5af7a50a" x="0" y="89" width="240" height="16"/>
+				<textElement>
+					<font size="12" isBold="false"/>
+				</textElement>
+				<text><![CDATA[T.P 0114 233611, 071417 5801]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="81b95761-8607-4acf-8fe7-2318d63e489a" x="360" y="14" width="195" height="36"/>
+				<textElement textAlignment="Center">
+					<font size="24" isBold="true" isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Payment Receipt]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="bca0707b-e990-4555-a068-baa36227218a" x="53" y="115" width="164" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1eef16c8-e3c7-4cc7-a254-28e1daa0f21c" x="0" y="115" width="53" height="20"/>
+				<textElement>
+					<font isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Customer:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="86dcc9b7-0a0a-4037-a20a-bfbab36fa752" x="53" y="135" width="229" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{address_line1}+","+$F{address_line2}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="f3820033-d681-4c4f-8046-863e1393620e" x="53" y="155" width="229" height="20"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{customer_city}+"."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1eef16c8-e3c7-4cc7-a254-28e1daa0f21c" x="394" y="76" width="53" height="15"/>
+				<textElement textAlignment="Right">
+					<font isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Date :]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement uuid="40889f3b-fd7d-4693-ae4f-b35fa9e48a67" x="456" y="76" width="93" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{date}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="58a8ff7e-60fc-46cc-a23e-0955598442c7" x="0" y="177" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement uuid="31068f1c-9bed-40fb-ac73-b070edca0ee3" x="456" y="60" width="93" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{pay_id}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1eef16c8-e3c7-4cc7-a254-28e1daa0f21c" x="352" y="60" width="95" height="15"/>
+				<textElement textAlignment="Right">
+					<font isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[ No :]]></text>
+			</staticText>
+			<textField pattern="dd-MMM-yyyy">
+				<reportElement uuid="40889f3b-fd7d-4693-ae4f-b35fa9e48a67" x="456" y="92" width="93" height="15"/>
+				<textElement/>
+				<textFieldExpression><![CDATA[$F{inv_no}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="1eef16c8-e3c7-4cc7-a254-28e1daa0f21c" x="394" y="92" width="53" height="15"/>
+				<textElement textAlignment="Right">
+					<font isUnderline="false"/>
+				</textElement>
+				<text><![CDATA[Invoice No :]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="22" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="a0c8a008-c861-4f00-919e-1fcf0a349b00" x="53" y="0" width="219" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Description]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="bfd57fce-2451-4033-9a73-f08cb8e3741a" x="438" y="0" width="117" height="20"/>
+				<textElement textAlignment="Right" verticalAlignment="Middle">
+					<font isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Amount]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24">
+			<textField pattern="#,##0.00">
+				<reportElement uuid="63bac103-06e3-47ad-97d9-2b0551a7edea" x="438" y="3" width="117" height="20"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="a0c8a008-c861-4f00-919e-1fcf0a349b00" x="53" y="3" width="219" height="20"/>
+				<textElement verticalAlignment="Middle">
+					<font isUnderline="true"/>
+				</textElement>
+				<text><![CDATA[Invoice Payment]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="151" splitType="Stretch">
+			<line>
+				<reportElement uuid="58a8ff7e-60fc-46cc-a23e-0955598442c7" x="0" y="1" width="555" height="1"/>
+				<graphicElement>
+					<pen lineWidth="0.75"/>
+				</graphicElement>
+			</line>
+		</band>
+	</pageFooter>
+</jasperReport>
